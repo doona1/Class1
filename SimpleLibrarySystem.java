@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 // Book class with basic attributes
 class Book {
@@ -23,35 +24,29 @@ class Book {
 
 // Library class to manage books
 class Library {
-    Book[] books = new Book[5];  // fixed size for simplicity
-    int count = 0; // track number of books
+    ArrayList<Book> books = new ArrayList<>();  // Use ArrayList instead of array
 
     // Add book to library
     void addBook(int id, String title, String author) {
-        if (count < books.length) {
-            books[count] = new Book(id, title, author);
-            count++;
-            System.out.println("Book added successfully!");
-        } else {
-            System.out.println("Library is full.");
-        }
+        books.add(new Book(id, title, author));  // Add book to list
+        System.out.println("Book added successfully!");
     }
 
     // Display all books
     void showBooks() {
         System.out.println("\n--- Book List ---");
-        for (int i = 0; i < count; i++) {
-            books[i].displayBook();
+        for (Book book : books) {
+            book.displayBook();
         }
     }
 
     // Borrow a book
     void borrowBook(int bookId) {
-        for (int i = 0; i < count; i++) {
-            if (books[i].id == bookId) {
-                if (books[i].isAvailable) {
-                    books[i].isAvailable = false;
-                    System.out.println("You borrowed: " + books[i].title);
+        for (Book book : books) {
+            if (book.id == bookId) {
+                if (book.isAvailable) {
+                    book.isAvailable = false;
+                    System.out.println("You borrowed: " + book.title);
                 } else {
                     System.out.println("Sorry, book is already borrowed.");
                 }
@@ -63,11 +58,11 @@ class Library {
 
     // Return a book
     void returnBook(int bookId) {
-        for (int i = 0; i < count; i++) {
-            if (books[i].id == bookId) {
-                if (!books[i].isAvailable) {
-                    books[i].isAvailable = true;
-                    System.out.println("Thank you for returning: " + books[i].title);
+        for (Book book : books) {
+            if (book.id == bookId) {
+                if (!book.isAvailable) {
+                    book.isAvailable = true;
+                    System.out.println("Thank you for returning: " + book.title);
                 } else {
                     System.out.println("This book was not borrowed.");
                 }
@@ -79,7 +74,7 @@ class Library {
 }
 
 // Main class to run the program
-public class SimpleLibrarySystem {
+public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Library lib = new Library();
